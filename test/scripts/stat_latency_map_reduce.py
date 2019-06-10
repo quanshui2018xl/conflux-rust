@@ -30,23 +30,36 @@ class Transaction:
     @staticmethod
     def receive(log_line:str):
         log_timestamp = parse_log_timestamp(log_line)
-        tx_hash = parse_value(log_line, "Sampled transaction ", None)
+        tx_hash = parse_value(log_line, "Sampled transaction ", "\n")
         return Transaction(tx_hash, log_timestamp)
 
     @staticmethod
-    def add_or_merge(self, txs:dict, tx):
+    def add_or_merge(txs:dict, tx):
         if txs.get(tx.hash) is None:
             txs[tx.hash] = tx
         else:
             txs[tx.hash].merge(tx)
 
+    @staticmethod
+    def add_or_replace(txs:dict, tx):
+        if txs.get(tx.hash) is None:
+            txs[tx.hash] = tx
+        else:
+            txs[tx.hash].replace(tx)
+
     def merge(self, tx):
         self.timestamps.extend(tx.timestamps)
+
+    def replace(self, tx):
+        if tx.timestamps[0] < self.timestamps[0]:
+            self.timestamps = tx.timestamps
 
     def get_latencies(self):
         min_ts = min(self.timestamps)
         return [ts - min_ts for ts in self.timestamps]
 
+    def latency_count(self):
+        return len(self.timestamps)
 
 class Block:
     def __init__(self, hash:str, parent_hash:str, timestamp:float, height:int, referees:list):
@@ -185,9 +198,9 @@ class NodeLogMapper:
             assert sync_len >= cons_len, "invalid statistics for sync/cons gap, log line = {}".format(line)
             self.sync_cons_gaps.append(sync_len - cons_len)
 
-        if "Sampled transactions" in line:
+        if "Sampled transaction" in line:
             tx = Transaction.receive(line)
-            Transaction.add_or_merge(self.txs, tx)
+            Transaction.add_or_replace(self.txs, tx)
 
 
 class HostLogReducer:
@@ -281,6 +294,8 @@ class LogAggregator:
 
         # [latency_type, [block_hash, latency_stat]]
         self.block_latency_stats = {}
+        for t in BlockLatencyType:
+            self.block_latency_stats[t.name] = {}
         self.tx_latency_stats = {}
 
     def add_host(self, host_log:HostLogReducer):
@@ -288,6 +303,8 @@ class LogAggregator:
 
         for b in host_log.blocks.values():
             Block.add_or_merge(self.blocks, b)
+        for tx in host_log.txs.values():
+            Transaction.add_or_merge(self.txs, tx)
 
     def validate(self):
         num_nodes = len(self.sync_cons_gap_stats)
@@ -296,6 +313,12 @@ class LogAggregator:
             count_sync = b.latency_count(BlockLatencyType.Sync)
             if count_sync != num_nodes:
                 print("sync graph missed block {}: received = {}, total = {}".format(b.hash, count_sync, num_nodes))
+        missing_tx = 0
+        for tx_hash in list(self.txs.keys()):
+            if self.txs[tx_hash].latency_count() != num_nodes:
+                del self.txs[tx_hash]
+                missing_tx += 1
+        print("removed tx count", missing_tx)
 
     def stat_sync_cons_gap(self, p:Percentile):
         data = []

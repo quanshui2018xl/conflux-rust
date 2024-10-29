@@ -13,11 +13,25 @@ matrix:
         install:
             - if [ -f target/Cargo.lock ]; then mv target/Cargo.lock .; fi
             - export RUSTFLAGS="-D warnings"
+            - sh cargo_fmt.sh -- --check
             - cargo build --release
         script:
             - cargo test --release --all
         before_cache:
             - cp Cargo.lock target
+      # cargo clippy
+      - env:
+          - CACHE_NAME=clippy_tests
+        cache:
+          timeout: 300
+          cargo: true
+        install:
+          - if [ -f target/Cargo.lock ]; then mv target/Cargo.lock .; fi
+          - export RUSTFLAGS="-D warnings"
+        script:
+          - cargo clippy --release -- -A warnings
+        before_cache:
+          - cp Cargo.lock target
       # benchmark tests
       - env:
             - CACHE_NAME=bench
@@ -42,15 +56,11 @@ matrix:
             - pyenv install 3.6.2
             - pyenv global 3.6.2
             - ./dev-support/dep_pip3.sh
-            # solc is required for integration tests to compile ERC20 contract.
-            - wget -O solc https://github.com/ethereum/solidity/releases/download/v0.5.2/solc-static-linux
-            - chmod +x solc
-            - export PATH=$PATH:$PWD
         install:
             - if [ -f target/Cargo.lock ]; then mv target/Cargo.lock .; fi
             - export RUSTFLAGS="-g -D warnings"
             - cargo build --release
         script:
-            - ./test/test_all.py
+            - ./tests/test_all.py
         before_cache:
             - cp Cargo.lock target

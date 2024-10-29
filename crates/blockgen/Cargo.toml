@@ -1,0 +1,27 @@
+[package]
+description = "Conflux blockgen library"
+homepage = "https://www.confluxnetwork.org"
+license = "GPL-3.0"
+name = "blockgen"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { workspace = true }
+cfxcore = { workspace = true }
+cfxkey = { workspace = true }
+cfx-parameters = { workspace = true }
+cfx-stratum = { workspace = true }
+cfx-types = { workspace = true }
+db = { workspace = true }
+lazy_static = { workspace = true }
+log = { workspace = true }
+metrics = { workspace = true }
+network = { workspace = true }
+primitives = { workspace = true }
+parking_lot = { workspace = true }
+rlp = { workspace = true }
+rand = "0.7"
+secret-store = { workspace = true }
+toml = "0.5.8"
+txgen = { workspace = true }

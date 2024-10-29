@@ -1,23 +1,47 @@
 # Conflux-Rust
 
-Conflux-rust is a rust-based implementation of Conflux protocol, it is fast and reliable. Please follow the [Conflux Documentation](https://conflux-chain.github.io/conflux-doc/) to [build](https://conflux-chain.github.io/conflux-doc/install/) and [run](https://conflux-chain.github.io/conflux-doc/get_started/) Conflux.
+Conflux-rust is a Rust-based implementation of the Conflux protocol. It is fast and
+reliable. 
 
-## Contribution
+## For Users
 
-Thank you for considering helping out with our source code. We appreciate any contributions, even the smallest fixes.
+Please follow the [Conflux
+Documentation](https://doc.confluxnetwork.org/) to
+[build](https://doc.confluxnetwork.org/docs/general/run-a-node/advanced-topics/compiling-conflux-client)
+and
+[run](https://doc.confluxnetwork.org/docs/general/run-a-node/)
+Conflux.
 
-Here are some guidelines before you start:
-* Please fork the project to contribute your pull requests.
-* If you wish to submit complex changes, please fire an [issue](https://github.com/Conflux-Chain/conflux-rust/issues) to communicate with the core devs first. 
-* Pull requests need to be based on and opened against the `master` branch.
-* Code must be formatted using [cargo_fmt.sh](https://github.com/Conflux-Chain/conflux-rust/blob/master/cargo_fmt.sh).
-* We use reviewable.io as our code review tool for any pull request.
+## For Developers
+
+For a general overview of the crates, see [Project Layout](./docs/repo/layout.md).
+
+### Contribution
+
+Thank you for considering helping out with our source code. We appreciate any
+contributions, even the smallest fixes. Please read the
+[guidelines](https://github.com/Conflux-Chain/conflux-rust/blob/master/CONTRIBUTING.md)
+on how to submit issues and pull requests. Note that if you want to propose
+significant changes to the Conflux protocol, please submit a
+[CIP](https://github.com/Conflux-Chain/CIPs).
+
+### Unit Tests and Integration Tests
+
+Unit tests come together with the Rust code. They can be invoked via `cargo test --release --all`. See the
+[Getting Started](https://doc.confluxnetwork.org/docs/general/run-a-node/)
+page for more information. 
+
+Integration tests are Python test scripts with the `_test.py` suffix in the `tests` directory. 
+To run these tests, first compile Conflux in _release_ mode using `cargo build --release` and 
+fetch all submodule using `git submodule update --remote --recursive --init`.
+Then, you can run all integration tests using the script `tests/test_all.py`.
 
 ## Resources
 
-* [Conflux Website](https://www.conflux-chain.org/)
-* [Conflux Paper](https://arxiv.org/abs/1805.03870)
-* [Medium](https://medium.com/@Confluxchain)
+- [Conflux Website](https://www.confluxnetwork.org/)
+- [Conflux Scan](https://www.confluxscan.io/)
+- [Conflux Paper](https://arxiv.org/abs/1805.03870)
+- [Medium](https://medium.com/@ConfluxNetwork)
 
 ## License
 

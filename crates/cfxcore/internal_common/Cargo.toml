@@ -1,0 +1,25 @@
+[package]
+description = "Conflux internal common library"
+homepage = "https://www.confluxnetwork.org"
+license = "GPL-3.0"
+name = "cfx-internal-common"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+cfx-bytes = { workspace = true }
+cfx-types = { workspace = true }
+cfx-parameters = { workspace = true }
+cfx-vm-types = { workspace = true }
+derivative = "2.0.2"
+lazy_static = { workspace = true }
+log = { workspace = true }
+malloc_size_of = { workspace = true }
+malloc_size_of_derive = { workspace = true }
+parking_lot = { workspace = true }
+primitives = { workspace = true }
+rlp = { workspace = true }
+rlp_derive = { workspace = true }
+serde = { workspace = true }
+serde_derive = { workspace = true }
+toml = "0.5.8"

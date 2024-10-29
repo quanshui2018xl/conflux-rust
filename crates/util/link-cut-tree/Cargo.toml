@@ -1,0 +1,11 @@
+[package]
+name = "link-cut-tree"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+cfx-types = { workspace = true }
+parking_lot = { workspace = true }
+rand = "0.7"
+malloc_size_of = { workspace = true }
+malloc_size_of_derive = { workspace = true }

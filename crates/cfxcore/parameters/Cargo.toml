@@ -1,0 +1,16 @@
+[package]
+description = "Conflux core parameters library"
+homepage = "https://www.confluxnetwork.org"
+license = "GPL-3.0"
+name = "cfx-parameters"
+version = "1.0.0"
+edition = "2021"
+
+[dependencies]
+cfx-types = { workspace = true }
+cfxkey = { workspace = true }
+cfx-bytes = { workspace = true }
+
+lazy_static = "1.4"
+hex-literal = "0.4.1"
+rustc-hex = "2.1"

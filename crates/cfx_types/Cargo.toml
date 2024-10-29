@@ -1,0 +1,17 @@
+[package]
+name = "cfx-types"
+version = "0.2.0"
+license = "GPL-3.0"
+description = "Conflux types"
+
+[dependencies]
+ethereum-types = "0.9"
+serde_derive = { workspace = true }
+serde = { workspace = true }
+rlp = { workspace = true }
+rlp_derive = { workspace = true }
+hex = { workspace = true }
+keccak-hash = { workspace = true }
+
+[features]
+storage_benchmark_no_account_space_check = []

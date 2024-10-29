@@ -1,0 +1,13 @@
+[package]
+name = "log-device"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+parking_lot = { workspace = true }
+byteorder = "1.2.7"
+db = { workspace = true }
+rlp = { workspace = true }
+rlp_derive = { workspace = true }
+kvdb = "0.4"
+rand = "0.7"
